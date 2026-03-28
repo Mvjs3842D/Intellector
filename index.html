@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Intelletor</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+  <div class="app">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-icon">i</div>
+        <span class="logo-text">Intelletor</span>
+      </div>
+      <button class="new-btn" onclick="resetAll()">+ New Session</button>
+      <div class="sidebar-footer">Structured AI Thinking</div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+
+      <div class="topbar">Thinking Workflow</div>
+
+      <div class="content-wrapper">
+
+        <!-- STEP VIEW -->
+        <div id="stepView" class="center-panel">
+
+          <!-- Step dots -->
+          <div class="steps-bar">
+            <button class="dot completed" onclick="goTo(1)" id="dot1">1</button>
+            <div class="line" id="line1"></div>
+            <button class="dot" onclick="goTo(2)" id="dot2">2</button>
+            <div class="line" id="line2"></div>
+            <button class="dot" onclick="goTo(3)" id="dot3">3</button>
+            <div class="line" id="line3"></div>
+            <button class="dot" onclick="goTo(4)" id="dot4">4</button>
+            <div class="line" id="line4"></div>
+            <button class="dot" onclick="goTo(5)" id="dot5">5</button>
+          </div>
+
+          <div class="step-form">
+            <div class="step-label" id="stepLabel">Step 1 of 5</div>
+            <h2 class="step-title" id="stepTitle">Core Idea</h2>
+            <p class="step-hint" id="stepHint">What is your main idea or problem?</p>
+            <textarea id="stepInput" rows="5" placeholder="Type here..."></textarea>
+
+            <div class="step-buttons">
+              <button class="btn-ghost" id="backBtn" onclick="goBack()">← Back</button>
+              <button class="btn-primary" id="nextBtn" onclick="goNext()">Continue →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- OUTPUT VIEW -->
+        <div id="outputView" class="output-wrapper" style="display:none;">
+
+          <div class="output-area">
+            <div class="output-toolbar">
+              <button class="btn-ghost" onclick="goTo(1)">← Edit steps</button>
+              <div>
+                <button class="btn-small" onclick="copyOutput()">Copy</button>
+                <button class="btn-small btn-primary-small" onclick="resetAll()">New</button>
+              </div>
+            </div>
+            <div class="output-content" id="outputContent"></div>
+          </div>
+
+          <div class="refine-panel">
+            <div class="refine-header">
+              <strong>Refine</strong>
+              <div class="refine-badge">🛡️ Core argument preserved</div>
+            </div>
+            <div class="refine-list" id="refineList"></div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Loading overlay -->
+  <div id="loader" class="loader" style="display:none;">
+    <div class="spinner"></div>
+    <span>Thinking...</span>
+  </div>
+
+  <script src="/script.js"></script>
+</body>
+</html>
