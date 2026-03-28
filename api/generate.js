@@ -57,7 +57,7 @@ module.exports = async function (req, res) {
 
     // ── Real Gemini call ──
     var genAI = new GoogleGenerativeAI(key);
-    var model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    var model = genAI.getGenerativeModel({ model: "gemini-3.0-flash" });
     var result = await model.generateContent(prompt);
     var text = result.response.text();
 
