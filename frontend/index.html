@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intellector - AI Teaching Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+
+        <!-- ====== SIDEBAR ====== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-section">
+                    <div class="logo-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <span class="logo-text">Intellector</span>
+                </div>
+                <button class="new-chat-btn" onclick="createNewChat()" title="New Chat">
+                    <i class="fas fa-plus"></i>
+                    <span>New Chat</span>
+                </button>
+            </div>
+
+            <!-- Chat History -->
+            <div class="sidebar-section">
+                <div class="section-header">
+                    <span><i class="fas fa-clock-rotate-left"></i> Recent Chats</span>
+                </div>
+                <div class="section-content expanded" id="history-content">
+                    <div class="chat-history-list" id="chat-history-list">
+                        <div class="empty-state">
+                            <i class="fas fa-comments"></i>
+                            <p>No chats yet</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Section -->
+            <div class="sidebar-section">
+                <div class="section-header">
+                    <span><i class="fas fa-info-circle"></i> How It Works</span>
+                </div>
+                <div class="section-content expanded" id="info-content">
+                    <div class="info-cards">
+                        <div class="info-card">
+                            <i class="fas fa-bolt" style="color: #4caf50;"></i>
+                            <div>
+                                <strong>Factual</strong>
+                                <p>Direct answers for facts, definitions, dates</p>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <i class="fas fa-graduation-cap" style="color: #7c5cfc;"></i>
+                            <div>
+                                <strong>Intellectual</strong>
+                                <p>Guided learning through questions &amp; discussion</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="sidebar-footer">
+                <div class="connection-status" id="connection-status">
+                    <div class="status-dot disconnected"></div>
+                    <span>Checking connection...</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ====== MAIN ====== -->
+        <main class="main-content">
+
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <button class="sidebar-toggle" onclick="toggleSidebar()" title="Toggle Sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="chat-info">
+                    <h2 id="current-chat-title">Intellector</h2>
+                    <div class="chat-meta" id="chat-meta"></div>
+                </div>
+                <div class="top-bar-actions">
+                    <div class="teaching-indicator" id="teaching-indicator" style="display:none;">
+                        <div class="understanding-bar">
+                            <div class="understanding-fill" id="understanding-fill"></div>
+                        </div>
+                        <span id="understanding-label">Understanding: 0/5</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Chat Area -->
+            <div class="chat-area" id="chat-area">
+
+                <!-- Welcome Screen -->
+                <div class="welcome-screen" id="welcome-screen">
+                    <div class="welcome-logo">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h1>Welcome to Intellector</h1>
+                    <p class="welcome-subtitle">Your AI Teaching Assistant that guides you to understanding</p>
+
+                    <div class="welcome-features">
+                        <div class="feature-card">
+                            <div class="feature-icon factual-bg">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <h3>Direct Answers</h3>
+                            <p>For factual questions like definitions, full forms, dates — I give straight answers</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon intellectual-bg">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <h3>Guided Learning</h3>
+                            <p>For complex topics — I guide you through questions and analogies like a teacher</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon reveal-bg">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <h3>Builds Understanding</h3>
+                            <p>After enough discussion, I reveal the complete answer with full context</p>
+                        </div>
+                    </div>
+
+                    <div class="welcome-examples">
+                        <p class="examples-label">Try these examples:</p>
+                        <div class="example-prompts">
+                            <button class="example-btn" onclick="useExample('What is the full form of CPU?')">
+                                <i class="fas fa-bolt"></i> What is the full form of CPU?
+                            </button>
+                            <button class="example-btn" onclick="useExample('How does a neural network actually learn?')">
+                                <i class="fas fa-brain"></i> How does a neural network learn?
+                            </button>
+                            <button class="example-btn" onclick="useExample('Why is recursion useful in programming?')">
+                                <i class="fas fa-code"></i> Why is recursion useful?
+                            </button>
+                            <button class="example-btn" onclick="useExample('What year was Python created?')">
+                                <i class="fas fa-calendar"></i> What year was Python created?
+                            </button>
+                            <button class="example-btn" onclick="useExample('How does an operating system manage memory?')">
+                                <i class="fas fa-microchip"></i> How does an OS manage memory?
+                            </button>
+                            <button class="example-btn" onclick="useExample('Explain how encryption works')">
+                                <i class="fas fa-lock"></i> How does encryption work?
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Messages -->
+                <div class="messages-container" id="messages-container"></div>
+
+                <!-- Typing Indicator -->
+                <div class="typing-indicator" id="typing-indicator" style="display:none;">
+                    <div class="typing-avatar">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="typing-content">
+                        <div class="typing-dots">
+                            <span></span><span></span><span></span>
+                        </div>
+                        <span class="typing-text">Intellector is thinking...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area">
+                <div class="input-container">
+                    <div class="input-wrapper">
+                        <textarea
+                            id="message-input"
+                            placeholder="Ask me anything... I'll teach or answer directly based on the question type"
+                            rows="1"
+                            onkeydown="handleKeyDown(event)"
+                            oninput="autoResize(this)"
+                        ></textarea>
+                        <button class="send-btn" id="send-btn" onclick="sendMessage()" disabled title="Send">
+                            <i class="fas fa-arrow-up"></i>
+                        </button>
+                    </div>
+                    <p class="input-hint">
+                        <i class="fas fa-graduation-cap"></i> Socratic teaching for complex questions
+                        <span class="hint-divider">•</span>
+                        <i class="fas fa-bolt"></i> Direct answers for factual queries
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
